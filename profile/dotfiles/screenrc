@@ -1,0 +1,32 @@
+escape ^\a
+
+bell_msg '^GBell in window %n'
+
+defscrollback 10000
+
+shell -bash
+
+select 0
+
+startup_message off
+
+hardstatus string "screen (%n: %t)"
+caption string '%{= kG}[%{G}%H%{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{Y}%l%{g}][%{B}%m/%d %{W}%C%a%{g}]'
+caption always
+
+# Meta-y to put copy buffer into OS X buffer
+bind y eval "writebuf $HOME/.screen.pbcopy" "exec /usr/bin/osascript -e 'tell application \"System Events\"' -e 'set the clipboard to (read posix file \"/$HOME/.screen.pbcopy\" as text)' -e 'end tell'"
+
+# Meta-l to clear scroll buffer
+bind l eval "scrollback 0" "clear" "scrollback 10000"
+
+# #terminfo and termcap for nice 256 color terminal
+# # allow bold colors - necessary for some reason
+# attrcolor b ".I"
+# # tell screen how to set colors. AB = background, AF=foreground
+# termcapinfo xterm "Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm"
+# termcapinfo xterm-color "Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm"
+# # erase background with current bg color
+# defbce "on"
+#
+# term screen-256color

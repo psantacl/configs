@@ -1,0 +1,31 @@
+# Link .bashrc file if not exists
+if [ -f ~/.bashrc ]; then
+  echo "Skipping .bashrc because file already found at ~/.bashrc"
+else
+  echo "Setting up symlink to .bashrc file in ~/.bashrc"
+  ln -s "$(pwd)/.bashrc" ~/.bashrc
+fi
+
+# Link .profile file if not exists
+if [ -f ~/.profile ]; then
+  echo "Skipping .profile because file already found at ~/.profile"
+else
+  echo "Setting up symlink to ./init file in ~/.profile"
+  ln -s "$(pwd)/init" ~/.profile
+fi
+
+# Link .profile.d file if not exists
+if [ -d ~/.profile.d ]; then
+  echo "Skipping .profile.d because file already found at ~/.profile.d"
+else
+  echo "Setting up symlink to .profile.d file in ~/"
+  ln -s "$(pwd)" ~/.profile.d
+fi
+
+for BLOCKING_RC in .bashrc .login .bashprofile; do
+  if [ -f $BLOCKING_RC ]; then
+    echo
+    echo "Warning: Found existing $BLOCKING_RC which may cause .profile not to load."
+    echo "You may want to move this file into a $PROFILE_PATH/$BLOCKING_RC.conf file."
+  fi
+done

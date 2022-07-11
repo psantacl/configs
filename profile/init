@@ -1,0 +1,30 @@
+load_conf() {
+  local conf
+  for conf in "$1"/*.conf; do
+    [ -d "${conf}" ] && load_conf "${conf}"
+    [ -f "${conf}" ] && source "${conf}"
+  done
+  return 0
+}
+
+conf_support() {
+  cd `dirname ${BASH_ARGV[0]}`
+  echo "`pwd`/$1"
+  cd - > /dev/null
+}
+
+PLATFORM=`uname`
+ORIGINAL_PWD=`pwd`
+
+PROFILE_CORE="${HOME}/.profile.d"
+PROFILE_CUSTOMER="$PROFILE_CORE/$PLATFORM"
+
+
+cd "${HOME}"
+
+load_conf "${PROFILE_CORE}"
+load_conf "${PROFILE_CORE}/${PLATFORM}"
+
+cd "${ORIGINAL_PWD}"
+eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$(/opt/homebrew/bin/brew shellenv)"
