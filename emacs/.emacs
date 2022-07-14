@@ -34,6 +34,11 @@
 (unless (package-installed-p 'company)
   (package-install 'company))
 
+;; Integration with godef
+
+;; godef-describe (C-c C-d) to describe expressions
+;; godef-jump (C-c C-j) and godef-jump-other-window (C-x 4 C-c C-j) to jump to declarations
+;; This requires you to install godef via go install github.com/rogpeppe/godef@latest.
 (unless (package-installed-p 'go-mode)
   (package-install 'go-mode))
 
